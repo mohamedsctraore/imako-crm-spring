@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <meta charset="UTF-8" />
+    <title>Contact</title>
+</head>
+<body>
+
+<section layout:fragment="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Listagem</h3>
+            <div class="box-tools pull-right">
+                <a th:href="@{/dashboard/contact/new}" type="button" class="btn btn-box-tool"><i class="fa fa-plus"></i>Ajouter Contact</a>
+                <br clear="all" />
+            </div>
+        </div>
+        <div class="box-body no-padding">
+            <table class="table table-striped">
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Telephone</th>
+                    <th>Categorie</th>
+                </tr>
+                <tr>
+                    <td th:text="${contact.id}"></td>
+                    <td th:text="${contact.nom}"></td>
+                    <td th:text="${contact.email}"></td>
+                    <td th:text="${contact.telephone}"></td>
+                    <td th:text="${contact.categorie}"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <a role="button" class="btn btn-primary" href="">Prendre un rendez vous</a>
+                        <a role="button" class="btn btn-success" href="">Prendre une commande</a>
+                        <a role="button" class="btn btn-danger" href="">Exporter en PDF</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
