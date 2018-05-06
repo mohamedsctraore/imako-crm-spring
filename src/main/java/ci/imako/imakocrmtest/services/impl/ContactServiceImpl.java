@@ -16,6 +16,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class ContactServiceImpl implements ContactService {
+
     private static final Logger log = LoggerFactory.getLogger(ContactServiceImpl.class);
 
     private ContactRepository contactRepository;
@@ -52,6 +53,8 @@ public class ContactServiceImpl implements ContactService {
         if (contact.getId() == null) {
             log.debug("ID NULL CONTACT : " + contact.getId());
             contact.setCategorie(Contact.Categorie.SUSPECT);
+        } else {
+
         }
         return contactRepository.save(contact);
     }
@@ -119,5 +122,10 @@ public class ContactServiceImpl implements ContactService {
         log.info("FIN DE LA METHODE ET NOUVEAU STATUS POUR LE CONTACT");
 
         return contact;
+    }
+
+    @Override
+    public List<Contact> findAllNomLike(String motCle) {
+        return contactRepository.findAllByNomLike(motCle);
     }
 }

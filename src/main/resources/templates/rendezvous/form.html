@@ -21,7 +21,7 @@
                 <br clear="all" />
             </div>
         </div>
-        <form data-toggle="validator" role="form" th:object="${rendezvous}" th:action="@{/dashboard/rendezvous}" method="post">
+        <form data-toggle="validator" role="form" th:object="${rendezvous}" th:action="@{'/dashboard/rendezvous' + ${id_contact_rendezvous}}" method="post">
             <div class="box-body">
                 <input type="hidden" th:text="${id_contact_rendezvous}"/>
 

@@ -21,13 +21,13 @@
                 <br clear="all" />
             </div>
         </div>
-        <form data-toggle="validator" role="form" th:object="${commande}" th:action="@{/dashboard/commande}" method="post">
+        <form data-toggle="validator" role="form" th:object="${commande}" th:action="@{'/dashboard/commande/' + ${id_contact_commande}}" method="post">
             <div class="box-body">
                 <input type="hidden" th:text="${id_contact_commande}"/>
 
                 <div class="form-group">
                     <label for="noteCommande">NoteCommande</label>
-                    <input type="text" required="true" class="form-control" th:field="*{noteRendezVous}" id="noteCommande" />
+                    <input type="text" required="true" class="form-control" th:field="*{noteCommande}" id="noteCommande" />
                 </div>
             </div>
             <div class="box-footer">

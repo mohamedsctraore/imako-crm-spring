@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -31,22 +32,22 @@ public class RendezVousController {
     }
 
     @GetMapping("/rendez-vous/{id}/new")
-    public String newRendezVous(Model model, @PathVariable Long id) {
+    public String newRendezVous(Model model, @PathVariable String id) {
         log.info("DEBUT AFFICHAGE FORMULAIRE PRISE DE RENDEZVOUS");
         log.debug("ID CONTACT : " + id);
 
         model.addAttribute("rendezvous", new RendezVous());
-        model.addAttribute("id_contact_rendezvous", id);
+        model.addAttribute("id_contact_rendezvous", Long.valueOf(id));
 
         log.info("AFFICHAGE DU FORMULAIRE DE RENDEZVOUS");
         return "rendezvous/form";
     }
 
     @GetMapping("/rendez-vous/{id}/show")
-    public String showRendezVous(Model model, @PathVariable Long id) {
+    public String showRendezVous(Model model, @PathVariable String id) {
         log.info("DEBUT AFFICHAGE D'UN RENDEZ VOUS");
 
-        RendezVous rendezVous = rendezVousService.findById(id);
+        RendezVous rendezVous = rendezVousService.findById(Long.valueOf(id));
 
         model.addAttribute("rendezvous", rendezVous);
 
@@ -57,11 +58,11 @@ public class RendezVousController {
 
     @GetMapping("/rendez-vous/{id}/update")
     public String updateRendezVous(Model model,
-                                   @PathVariable Long id) {
+                                   @PathVariable String id) {
         log.info("DEBUT AFFICHAGE FORMULAIRE PRISE DE RENDEZ VOUS");
         log.debug("ID RENDEZ VOUS : " + id);
 
-        RendezVous rendezVous = rendezVousService.findById(id);
+        RendezVous rendezVous = rendezVousService.findById(Long.valueOf(id));
         log.debug("ID RENDEZVOUS A MODIFIE : " + rendezVous.getId());
         log.debug("ID CONTACT DU RENDEZ VOUS : " + rendezVous.getContact().getId());
 
@@ -72,10 +73,10 @@ public class RendezVousController {
     }
 
     @GetMapping("/rendez-vous/{id}/delete")
-    public String deleteRendezVous(@PathVariable Long id) {
+    public String deleteRendezVous(@PathVariable String id) {
         log.info("INVOCATION METHODE DE SUPPRESSION");
 
-        RendezVous rendezVous = rendezVousService.findById(id);
+        RendezVous rendezVous = rendezVousService.findById(Long.valueOf(id));
         Contact contact = rendezVous.getContact();
 
         contact.removeRendezVous(rendezVous);
@@ -86,7 +87,7 @@ public class RendezVousController {
         log.debug(contact.getEmail());
         log.debug(contact.getTelephone());
 
-        Long id_contact = contact.getId();
+        String id_contact = contact.getId().toString();
         rendezVousService.delete(rendezVous);
 
         log.info("SUPPRESSION RENDEZ VOUS NUMERO : " + id);
@@ -100,21 +101,24 @@ public class RendezVousController {
         return "redirect:/dashboard/contact/" + id_contact + "/show";
     }
 
-    @PostMapping("/rendezvous")
+    @PostMapping("/rendezvous{id_contact}")
     public String saveOrUpdateRendezVous(@Valid @ModelAttribute("rendezvous") RendezVous rendezVous,
                                          BindingResult result,
-                                         @ModelAttribute("id_contact") Long id) {
+                                         @PathVariable("id_contact") String id,
+                                         RedirectAttributes redirectAttributes) {
         log.info("DEBUT VALIDATION FORMULAIRE SAVE OR UPDATE");
 
         if (result.hasErrors()) {
             result.getAllErrors().forEach(objectError -> {
                 log.debug(objectError.toString());
             });
+            redirectAttributes.addFlashAttribute("errorFlash", "Un ou plusieurs erreurs " +
+                    "dans le formulaire");
 
             return "rendezvous/form";
         }
 
-        Contact contact = contactService.findById(id);
+        Contact contact = contactService.findById(Long.valueOf(id));
 
         log.debug("NOM CONTACT : " + contact.getNom());
         log.debug("EMAIL CONTACT : " + contact.getEmail());
@@ -135,6 +139,8 @@ public class RendezVousController {
         contactService.save(contact);
         log.info("MISE A JOUR DU CONTACT");
 
-        return "redirect:/dashboard/contact/" + contact.getId() + "/show";
+        redirectAttributes.addFlashAttribute("successFlash", "Enregistrement effectué avec succès");
+
+        return "redirect:/dashboard/contact/" + contact.getId().toString() + "/show";
     }
 }

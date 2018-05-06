@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -33,7 +34,7 @@ public class CommandeController {
     public String newCommande(Model model, @PathVariable Long id) {
         log.info("AFFICHAGE DU FORMULAIRE DE CREATION D'UNE COMMANDE");
 
-        model.addAttribute("rendezvous", new RendezVous());
+        model.addAttribute("commande", new Commande());
         model.addAttribute("id_contact_commande", id);
 
         log.info("AFFICHAGE DU FORMULAIRE");
@@ -41,11 +42,11 @@ public class CommandeController {
     }
 
     @GetMapping("/commande/{id}/show")
-    public String showCommande(Model model, @PathVariable Long id) {
+    public String showCommande(Model model, @PathVariable String id) {
         log.info("DEBUT METHODE POUR AFFICHER UNE COMMANDE");
         log.debug("ID COMMANDE A AFFICHER : " + id);
 
-        Commande commande = commandeService.findById(id);
+        Commande commande = commandeService.findById(Long.valueOf(id));
         log.debug("ID COMMANDE : " + commande.getId().toString());
         log.debug("NOTE COMMANDE : " + commande.getNoteCommande());
 
@@ -56,11 +57,11 @@ public class CommandeController {
     }
 
     @GetMapping("/commande/{id}/update")
-    public String updateCommande(Model model, Long id) {
+    public String updateCommande(Model model, @PathVariable String id) {
         log.info("DEBUT AFFICHAGE PAGE DE MODIFICATION COMMANDE");
         log.debug("ID COMMANDE A MODIFIER : " + id);
 
-        Commande commande = commandeService.findById(id);
+        Commande commande = commandeService.findById(Long.valueOf(id));
         log.debug("ID COMMANDE : " + commande.getId().toString());
         log.debug("NOTE DE COMMANDE : " + commande.getNoteCommande());
 
@@ -71,11 +72,11 @@ public class CommandeController {
     }
 
     @GetMapping("/commande/{id}/delete")
-    public String deleteCommande(@PathVariable Long id) {
+    public String deleteCommande(@PathVariable String id) {
         log.info("INVOCATION SUPPRESSION D'UNE COMMANDE");
         log.debug("ID COMMANDE A SUPPRIMER : " + id);
 
-        Commande commande = commandeService.findById(id);
+        Commande commande = commandeService.findById(Long.valueOf(id));
         log.debug("ID COMMANDE : " + commande.getId().toString());
         log.debug("NOTE DE COMMANDE : " + commande.getNoteCommande());
 
@@ -84,7 +85,7 @@ public class CommandeController {
         contact.removeCommande(commande);
         log.debug("TAILLE DE LA LISTE DES COMMANDES : " + contact.getCommandes().size());
 
-        Long id_contact = contact.getId();
+        String id_contact = contact.getId().toString();
         log.debug(contact.getId().toString());
         log.debug(contact.getNom());
         log.debug(contact.getEmail());
@@ -102,10 +103,11 @@ public class CommandeController {
         return "redirect:/dashboard/contact/" + id_contact + "/show";
     }
 
-    @PostMapping("/commande")
+    @PostMapping("/commande/{id_contact_commande}")
     public String saveOrUpdate(@Valid @ModelAttribute("commande") Commande commande,
                                BindingResult result,
-                               @ModelAttribute("id_contact_commande") Long id) {
+                               @PathVariable("id_contact_commande") String id,
+                               RedirectAttributes redirectAttributes) {
 
         log.info("INVOCATION VALIDATION DE FORMULAIRE DE COMMANDE");
         log.debug("ID CONTACT LIE A LA COMMANDE : "  + id);
@@ -114,10 +116,12 @@ public class CommandeController {
             result.getAllErrors().forEach(objectError -> {
                 log.debug(objectError.toString());
             });
+            redirectAttributes.addFlashAttribute("errorFlash", "Un ou plusieurs erreurs " +
+                    "dans le formulaire");
             return "commandes/form";
         }
 
-        Contact contact = contactService.findById(id);
+        Contact contact = contactService.findById(Long.valueOf(id));
         log.debug("ID CONTACT : " + contact.getId().toString());
         log.debug("NOM CONTACT : " + contact.getNom());
         log.debug("EMAIL CONTACT : " + contact.getEmail());
@@ -136,6 +140,8 @@ public class CommandeController {
         contactService.save(contact);
         log.info("MISE A JOUR DU CONTACT");
 
-        return "redirect:/dashboard/contact/" + contact.getId() + "/show";
+        redirectAttributes.addFlashAttribute("successFlash", "Enregistrement effectué avec succès");
+
+        return "redirect:/dashboard/contact/" + contact.getId().toString() + "/show";
     }
 }
