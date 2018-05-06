@@ -18,7 +18,7 @@
         <div class="box-header with-border">
             <h3 class="box-title">Formulaire Nouveau Contact</h3>
             <div class="box-tools pull-right">
-                <a th:href="@{/dashboard/contact/new}" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
+                <a th:href="@{/dashboard/contact/new}" type="button" class="btn btn-primary btn-box-tool"><i class="fa fa-list-ul"></i></a>
             </div>
         </div>
         <form data-toggle="validator" role="form" th:object="${contact}" th:action="@{/dashboard/contact}" method="post">

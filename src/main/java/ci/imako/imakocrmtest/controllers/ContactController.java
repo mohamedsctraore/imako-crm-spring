@@ -1,8 +1,12 @@
 package ci.imako.imakocrmtest.controllers;
 
+import ci.imako.imakocrmtest.domain.Commande;
 import ci.imako.imakocrmtest.domain.Contact;
+import ci.imako.imakocrmtest.domain.RendezVous;
 import ci.imako.imakocrmtest.exceptions.ResourceNotFoundException;
+import ci.imako.imakocrmtest.services.CommandeService;
 import ci.imako.imakocrmtest.services.ContactService;
+import ci.imako.imakocrmtest.services.RendezVousService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/dashboard")
@@ -22,10 +27,16 @@ public class ContactController {
     private static final Logger log = LoggerFactory.getLogger(ContactController.class);
 
     private ContactService contactService;
+    private RendezVousService rendezVousService;
+    private CommandeService commandeService;
 
     @Autowired
-    public ContactController(ContactService contactService) {
+    public ContactController(ContactService contactService,
+                             RendezVousService rendezVousService,
+                             CommandeService commandeService) {
         this.contactService = contactService;
+        this.rendezVousService = rendezVousService;
+        this.commandeService = commandeService;
     }
 
     @GetMapping("/contact-list")
@@ -41,12 +52,33 @@ public class ContactController {
         log.debug("ID PARAMETRE : " + id);
 
         Contact contact = contactService.findById(id);
-        model.addAttribute("contact", contact);
-
         log.debug("NOM DU CONTACT : " + contact.getNom());
         log.debug("EMAIL DU CONTACT : " + contact.getEmail());
         log.debug("TELEPHONE DU CONTACT : " + contact.getTelephone());
         log.debug("CATEGORIE DU CONTACT : " + contact.getCategorie().name());
+
+        model.addAttribute("contact", contact);
+
+        List<RendezVous> rendezVousList = rendezVousService.findByRendezVousById(id);
+        log.debug("NOMBRE DE RENDEZ VOUS LIE A CE CONTACT : " + rendezVousList.size());
+        for (RendezVous rendezVous : rendezVousList) {
+            log.debug(rendezVous.getId().toString());
+            log.debug(rendezVous.getDateRendezVous().toString());
+            log.debug(rendezVous.getNoteRendezVous());
+            log.debug("");
+        }
+
+        model.addAttribute("rendezVousList", rendezVousList);
+
+        List<Commande> commandeList = commandeService.findCommandesById(id);
+        log.debug("NOMBRE DE COMMANDES LIE A CE CONTACT : " + rendezVousList.size());
+        for (Commande commande : commandeList) {
+            log.debug(commande.getId().toString());
+            log.debug(commande.getNoteCommande());
+            log.debug("");
+        }
+
+        model.addAttribute("commandeList", commandeList);
 
         log.info("AFFICHAGE DU CONTACT ID " + contact.getId());
 
@@ -55,7 +87,7 @@ public class ContactController {
 
     @GetMapping("/contact/new")
     public String newContact(Model model) {
-        log.debug("DEBUT AFFICHAGE FORMULAIRE CONTACT");
+        log.info("DEBUT AFFICHAGE FORMULAIRE CONTACT");
 
         model.addAttribute("contact", new Contact());
 
@@ -81,7 +113,7 @@ public class ContactController {
 
     @GetMapping("/contact/{id}/delete")
     public String deleteContact(@PathVariable Long id) {
-        log.debug("DEBUT SUPPRESSION D'UN CONTACT");
+        log.info("DEBUT SUPPRESSION D'UN CONTACT");
 
         log.debug("ID SUPPRESSION CONTACT " + id);
 
@@ -95,7 +127,7 @@ public class ContactController {
     @PostMapping("/contact")
     public String saveOrUpdate(@Valid @ModelAttribute("contact") Contact contact,
                                BindingResult result) {
-        log.debug("DEBUT VALIDATION FORMULAIRE SAVE OR UPDATE");
+        log.info("DEBUT VALIDATION FORMULAIRE SAVE OR UPDATE");
 
         if (result.hasErrors()) {
             result.getAllErrors().forEach(objectError -> {

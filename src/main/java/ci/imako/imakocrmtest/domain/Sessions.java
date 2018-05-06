@@ -13,10 +13,13 @@ public class Sessions
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+
 	@Column(name = "id_session")
 	private String idSessionCurrentSession;
+
 	@Column(name = "ip_address")
 	private String ipAddressSession;
+
 	@Column(name = "user_agent")
 	private String agentSession;
 

@@ -18,23 +18,31 @@ public class AccountUser
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	long id;
+	private Long id;
+
 	@Column(name = "nom")
-	String firstName;
+	private String firstName;
+
 	@Column(unique = true)
 	@NotNull
-	String login;
+	private String login;
+
 	@NotNull
-	String password;
+	private String password;
+
 	@Email
-	String email;
+	private String email;
+
 	@Column(name = "etat_connexion")
-	boolean stateConnection;
+	private boolean stateConnection;
+
 	@Column(name = "etat_compte")
-	boolean isEnabled;
+	private boolean isEnabled;
+
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
 	List<Authority> authorities = new ArrayList<>();
+
 	@OneToMany(mappedBy = "accountUser", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	@Fetch(value = FetchMode.SUBSELECT)
 	List<Sessions> sessions = new ArrayList<>();
@@ -56,12 +64,12 @@ public class AccountUser
 	}
 
 
-	public long getId()
+	public Long getId()
 	{
 		return id;
 	}
 
-	public void setId(long id)
+	public void setId(Long id)
 	{
 		this.id = id;
 	}
