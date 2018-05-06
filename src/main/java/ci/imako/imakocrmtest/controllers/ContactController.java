@@ -37,7 +37,8 @@ public class ContactController {
     @Autowired
     public ContactController(ContactService contactService,
                              RendezVousService rendezVousService,
-                             CommandeService commandeService, ContactValidator contactValidator) {
+                             CommandeService commandeService,
+                             ContactValidator contactValidator) {
         this.contactService = contactService;
         this.rendezVousService = rendezVousService;
         this.commandeService = commandeService;
@@ -46,6 +47,7 @@ public class ContactController {
 
     @GetMapping("/contact-list")
     public String findAll(Model model) {
+
         model.addAttribute("contacts", contactService.findAll());
         log.info("Affichage de la liste des contacts");
         return "contacts/list";
