@@ -1,0 +1,111 @@
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" name="contact"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports ">
+
+    <parameter name="id_field" class="java.lang.Long"/>
+    <parameter name="nom_field" class="java.lang.String"/>
+    <parameter name="email_field" class="java.lang.String"/>
+    <parameter name="telephone_field" class="java.lang.String"/>
+    <parameter name="categorie_field" class="java.lang.String"/>
+
+    <queryString>
+        <![CDATA[SELECT * FROM contacts]]>
+    </queryString>
+
+    <field name="ID" class="java.lang.Long"/>
+    <field name="NOM" class="java.lang.String"/>
+    <field name="EMAIL" class="java.lang.String"/>
+    <field name="TELEPHONE" class="java.lang.String"/>
+    <field name="CATEGORIE" class="java.lang.String"/>
+
+    <title>
+        <band>
+            <staticText>
+                <reportElement x="0" y="0" width="150" height="20"/>
+                <textElement/>
+                <text>
+                    FICHE DE CONTACT
+                </text>
+            </staticText>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band>
+            <textField>
+                <reportElement x="0" y="0" width="100" height="20"/>
+                <textElement/>
+                <textFieldExpression>
+                    ID
+                </textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="100" y="0" width="100" height="20"/>
+                <textElement/>
+                <textFieldExpression>
+                    NOM
+                </textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="200" y="0" width="100" height="20"/>
+                <textElement/>
+                <textFieldExpression>
+                    EMAIL
+                </textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="300" y="0" width="100" height="20"/>
+                <textElement/>
+                <textFieldExpression>
+                    TELEPHONE
+                </textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="400" y="0" width="100" height="20"/>
+                <textElement/>
+                <textFieldExpression>
+                    CATEGORIE
+                </textFieldExpression>
+            </textField>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="51" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="0" width="100" height="20"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String">
+                    <![CDATA[$P{ID}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="100" y="0" width="100" height="20"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String">
+                    <![CDATA[$P{NOM}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="200" y="0" width="100" height="20"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String">
+                    <![CDATA[$P{EMAIL}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="300" y="0" width="100" height="20"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String">
+                    <![CDATA[$P{TELEPHONE}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="400" y="0" width="100" height="20"/>
+                <textElement/>
+                <textFieldExpression class="java.lang.String">
+                    <![CDATA[$P{CATEGORIE}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>
