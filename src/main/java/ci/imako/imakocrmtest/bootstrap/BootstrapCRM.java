@@ -32,7 +32,9 @@ public class BootstrapCRM implements ApplicationListener<ContextRefreshedEvent> 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         log.info("DEBUT DU CHARGEMENT DES DONNEES");
-        accountUserService.save(getUserAccount());
+        if (accountUserService.findByLogin("mohamed") == null) {
+            accountUserService.save(getUserAccount());
+        }
         log.info("CHARGEMENT DES DONNEES DE L'APPLICATION TERMINE");
     }
 
