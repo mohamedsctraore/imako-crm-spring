@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <property name="DEV_HOME" value="/home/mohamed/log-imako-crm" />
+    <property name="DEV_HOME" value="${HOME}/log-imako-crm" />
 
     <appender name="FILE-AUDIT"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
