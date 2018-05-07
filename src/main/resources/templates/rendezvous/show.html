@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <meta charset="UTF-8" />
+    <title>Contact</title>
+</head>
+<body>
+
+<section layout:fragment="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Contact</h3>
+            <div class="box-tools pull-right">
+                <br clear="all" />
+            </div>
+        </div>
+        <div class="box-body no-padding">
+            <table class="table table-striped">
+                <tr>
+                    <th>ID</th>
+                    <th>Date Rendez Vous</th>
+                    <th>Note Rendez Vous</th>
+                </tr>
+                <tr>
+                    <td th:text="${rendezvous.id}"></td>
+                    <td th:text="${rendezvous.dateRendezVous}"></td>
+                    <td th:text="${rendezvous.noteRendezVous}"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <a role="button" class="btn btn-danger" th:href="@{'/dashboard/exporter/' + ${rendezvous.id} + '/new'} ">Exporter en PDF</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+</section>
+
+</body>
+</html>

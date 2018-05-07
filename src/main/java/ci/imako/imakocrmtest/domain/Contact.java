@@ -1,6 +1,7 @@
 package ci.imako.imakocrmtest.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -10,21 +11,24 @@ public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @Column(nullable = false, length = 150)
     private String nom;
-    @Column(nullable = false, length = 150, unique = true)
+
+    @Column(nullable = false, length = 150, unique = false)
     private String email;
-    @Column(nullable = false, length = 25, unique = true)
+
+    @Column(nullable = false, length = 25, unique = false)
     private String telephone;
 
     @Enumerated(value = EnumType.STRING)
     private Categorie categorie;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "contact")
-    private List<Commande> commandes;
+    private List<Commande> commandes = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "contact")
-    private List<RendezVous> rendezVousList;
+    private List<RendezVous> rendezVousList = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -80,6 +84,30 @@ public class Contact {
 
     public void setRendezVousList(List<RendezVous> rendezVousList) {
         this.rendezVousList = rendezVousList;
+    }
+
+    public void addRendezVous(RendezVous rendezVous) {
+        if (rendezVous != null) {
+            this.getRendezVousList().add(rendezVous);
+        }
+    }
+
+    public void removeRendezVous(RendezVous rendezVous) {
+        if (rendezVous != null) {
+            this.getRendezVousList().remove(rendezVous);
+        }
+    }
+
+    public void addCommande(Commande commande) {
+        if (commande != null) {
+            this.getCommandes().add(commande);
+        }
+    }
+
+    public void removeCommande(Commande commande) {
+        if (commande != null) {
+            this.getCommandes().remove(commande);
+        }
     }
 
     @Override

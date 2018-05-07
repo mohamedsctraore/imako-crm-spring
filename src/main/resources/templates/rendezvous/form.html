@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <title>Nouveau Rendez Vous</title>
+</head>
+<body>
+<section layout:fragment="header">
+    <h1>Nouveau Contact</h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active">Nouveau Rendez Vous</li>
+    </ol>
+</section>
+<div layout:fragment="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Formulaire Nouveau Rendez Vous</h3>
+            <div class="box-tools pull-right">
+                <br clear="all" />
+            </div>
+        </div>
+        <form data-toggle="validator" role="form" th:object="${rendezvous}" th:action="@{'/dashboard/rendezvous' + ${id_contact_rendezvous}}" method="post">
+            <div class="box-body">
+                <input type="hidden" th:text="${id_contact_rendezvous}"/>
+
+                <div class="form-group">
+                    <label for="dateRendezVous">DateRendezVous</label>
+                    <input type="date" required="true" class="form-control" th:field="*{dateRendezVous}" id="dateRendezVous" />
+                </div>
+                <div class="form-group">
+                    <label for="noteRendezVous">NoteRendezVous</label>
+                    <input type="text" required="true" class="form-control" th:field="*{noteRendezVous}" id="noteRendezVous" />
+                </div>
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Valider</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

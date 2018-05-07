@@ -2,9 +2,11 @@ package ci.imako.imakocrmtest.services.impl;
 
 import ci.imako.imakocrmtest.domain.AccountUser;
 import ci.imako.imakocrmtest.exceptions.ResourceNotFoundException;
+import ci.imako.imakocrmtest.model.AccountDetails;
 import ci.imako.imakocrmtest.repositories.AccountUserRepository;
 import ci.imako.imakocrmtest.services.AccountUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,6 +33,15 @@ public class AccountUserServiceImpl implements AccountUserService {
     @Override
     public AccountUser recoveryPassword(Long id, String password) {
         return null;
+    }
+
+    @Override
+    public AccountUser currentUser() {
+        AccountDetails accountDetails = (AccountDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        return accountDetails.getAccountUser();
     }
 
     @Override

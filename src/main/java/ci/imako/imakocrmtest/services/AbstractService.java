@@ -28,12 +28,6 @@ public interface AbstractService<T, Long> {
      *
      * @param t
      */
-    void update(T t);
-
-    /**
-     *
-     * @param t
-     */
     void delete(T t);
 
     /**

@@ -1,5 +1,7 @@
 package ci.imako.imakocrmtest.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -11,6 +13,7 @@ public class RendezVous {
     private Long id;
 
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-")
     @Column(nullable = false)
     private Date dateRendezVous;
 

@@ -15,10 +15,22 @@
 </section>
 <div layout:fragment="content">
     <div class="box">
+        <form th:action="@{/dashboard/contact/search}" method="post" class="form-inline ml-3">
+            <div class="input-group input-group-sm">
+                <div class="input-group-append">
+                    <input class="form-control form-control-navbar" type="search" name="mot_cle" placeholder="Search" aria-label="Search" />
+
+                    <button class="btn btn-navbar" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+
         <div class="box-header with-border">
-            <h3 class="box-title">Listagem</h3>
+            <h3 class="box-title">Liste des contacts</h3>
             <div class="box-tools pull-right">
-                <a th:href="@{/dashboard/contact/new}" type="button" class="btn btn-box-tool"><i class="fa fa-plus"></i>Ajouter Contact</a>
+                <a th:href="@{/dashboard/contact/new}" type="button" class="btn btn-primary">Ajouter Contact</a>
                 <br clear="all" />
             </div>
         </div>
@@ -37,7 +49,7 @@
                     <td th:text="${contact.telephone}"></td>
                     <td>
                         <a role="button" class="btn btn-primary" th:href="@{'/dashboard/contact/' + ${contact.id} + '/show'}">Voir</a>
-                        <a role="button" class="btn btn-success" th:href="@{'/dashboard/contact/' + ${contact.id} + '/update'}">Modifier</a> -
+                        <a role="button" class="btn btn-success" th:href="@{'/dashboard/contact/' + ${contact.id} + '/update'}">Modifier</a>
                         <a role="button" class="btn btn-danger" th:href="@{'/dashboard/contact/' + ${contact.id} + '/delete'}">Supprimer</a>
                     </td>
                 </tr>

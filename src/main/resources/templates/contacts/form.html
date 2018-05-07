@@ -18,26 +18,48 @@
         <div class="box-header with-border">
             <h3 class="box-title">Formulaire Nouveau Contact</h3>
             <div class="box-tools pull-right">
-                <a th:href="@{/dashboard/contact/new}" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
+                <a th:href="@{/dashboard/contact/new}" type="button" class="btn btn-primary btn-box-tool"><i class="fa fa-list-ul"></i></a>
             </div>
         </div>
         <form data-toggle="validator" role="form" th:object="${contact}" th:action="@{/dashboard/contact}" method="post">
             <div class="box-body">
+                <p th:if="${#fields.hasErrors('global')}"
+                   th:errors="*{global}" th:class="text-red">
+                    Données incorrectes
+                </p>
+
                 <input type="hidden" th:field="*{id}"/>
 
-                <div class="form-group">
+                <div class="form-group" th:classappend="${#fields.hasErrors('nom')} ? 'has-error'">
                     <label for="nom">Nom</label>
                     <input type="text" required="true" class="form-control" th:field="*{nom}" id="nom" />
+                    <p th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}" th:class="text-red">
+                        Nom invalide
+                    </p>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group" th:classappend="${#fields.hasErrors('email')} ? 'has-error'">
                     <label for="email">Email</label>
                     <input type="email" required="true" class="form-control" th:field="*{email}" id="email" />
+                    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:class="text-red">
+                        Email invalide
+                    </p>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group" th:classappend="${#fields.hasErrors('telephone')} ? 'has-error'">
                     <label for="telephone">Telephone</label>
                     <input type="text" required="true" class="form-control" th:field="*{telephone}" id="telephone" />
+                    <p th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}" th:class="text-red">
+                        Telephone invalide
+                    </p>
                 </div>
+
+                <div class="form-group">
+                    <input type="hidden" th:field="*{categorie}" id="categorie" />
+                </div>
+
             </div>
+
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary">Valider</button>
             </div>

@@ -33,7 +33,7 @@ public class BootstrapCRM implements ApplicationListener<ContextRefreshedEvent> 
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         log.info("DEBUT DU CHARGEMENT DES DONNEES");
         accountUserService.save(getUserAccount());
-        log.info("CHARGEMENT DES DONNEES DE L'APPLICATION TERMINElogin");
+        log.info("CHARGEMENT DES DONNEES DE L'APPLICATION TERMINE");
     }
 
     private AccountUser getUserAccount() {

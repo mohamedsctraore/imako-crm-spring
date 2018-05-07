@@ -11,10 +11,11 @@ public class Authority {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	long id;
+	private Long id;
+
 	@Column(name = "nom", unique = true)
-	String name;
-	String description;
+	private String name;
+	private String description;
 
 	public Authority() {
 

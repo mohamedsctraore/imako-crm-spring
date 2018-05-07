@@ -11,9 +11,10 @@
 <section layout:fragment="content">
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Listagem</h3>
+            <h3 class="box-title">Contact</h3>
             <div class="box-tools pull-right">
-                <a th:href="@{/dashboard/contact/new}" type="button" class="btn btn-box-tool"><i class="fa fa-plus"></i>Ajouter Contact</a>
+                <a target="_blank" role="button" class="btn btn-danger" th:href="@{'/dashboard/exporter/' + ${contact.id} + '/new'} ">Exporter en PDF</a>
+                <a class="btn btn-primary" th:href="@{/dashboard/contact/new}" type="button">Ajouter Contact</a>
                 <br clear="all" />
             </div>
         </div>
@@ -33,11 +34,58 @@
                     <td th:text="${contact.telephone}"></td>
                     <td th:text="${contact.categorie}"></td>
                 </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Mes Rendez Vous</h3>
+            <div class="box-tools pull-right">
+                <a role="button" class="btn btn-primary" th:href="@{'/dashboard/rendez-vous/' + ${contact.id} + '/new'}">Prendre un rendez vous</a>
+                <br clear="all" />
+            </div>
+        </div>
+        <div class="box-body no-padding">
+            <table class="table table-striped">
                 <tr>
+                    <th>Date Rendez Vous</th>
+                    <th>Note Rendez Vous</th>
+                </tr>
+                <tr th:each="rendezvous : ${rendezVousList}">
+                    <td th:text="${rendezvous.dateRendezVous}"></td>
+                    <td th:text="${rendezvous.noteRendezVous}"></td>
                     <td>
-                        <a role="button" class="btn btn-primary" href="">Prendre un rendez vous</a>
-                        <a role="button" class="btn btn-success" href="">Prendre une commande</a>
-                        <a role="button" class="btn btn-danger" href="">Exporter en PDF</a>
+                        <a role="button" class="btn btn-primary" th:href="@{'/dashboard/rendez-vous/' + ${rendezvous.id} + '/show'}">Voir</a>
+                        <a role="button" class="btn btn-success" th:href="@{'/dashboard/rendez-vous/' + ${rendezvous.id} + '/update'}">Modifier</a>
+                        <a role="button" class="btn btn-danger" th:href="@{'/dashboard/rendez-vous/' + ${rendezvous.id} + '/delete'}">Supprimer</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Mes Commandes</h3>
+            <div class="box-tools pull-right">
+                <a role="button" class="btn btn-primary" th:href="@{'/dashboard/commande/' + ${contact.id} + '/new'} ">Prendre une commande</a>
+                <br clear="all" />
+            </div>
+        </div>
+        <div class="box-body no-padding">
+            <table class="table table-striped">
+                <tr>
+                    <th>ID Commande</th>
+                    <th>Note Commande</th>
+                </tr>
+                <tr th:each="commande : ${commandeList}">
+                    <td th:text="${commande.id}"></td>
+                    <td th:text="${commande.noteCommande}"></td>
+                    <td>
+                        <a role="button" class="btn btn-primary" th:href="@{'/dashboard/commande/' + ${commande.id} + '/show'}">Voir</a>
+                        <a role="button" class="btn btn-success" th:href="@{'/dashboard/commande/' + ${commande.id} + '/update'}">Modifier</a>
+                        <a role="button" class="btn btn-danger" th:href="@{'/dashboard/commande/' + ${commande.id} + '/delete'}">Supprimer</a>
                     </td>
                 </tr>
             </table>
